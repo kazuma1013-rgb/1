@@ -1,0 +1,10 @@
+# Android / Gradle
+scan3d/android/.gradle/
+scan3d/android/build/
+scan3d/android/app/build/
+scan3d/android/local.properties
+*.apk
+# PCサーバー
+scan3d/pc_server/config.json
+scan3d/pc_server/scans/
+__pycache__/

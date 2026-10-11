@@ -1,0 +1,44 @@
+name: Scan3D Android APK
+
+on:
+  push:
+    paths:
+      - "scan3d/android/**"
+      - ".github/workflows/scan3d-android.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: scan3d/android
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build debug APK
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+          cp app/build/outputs/apk/debug/app-debug.apk scan3d-debug.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: scan3d-debug-apk
+          path: scan3d/android/scan3d-debug.apk
+      # Galaxy のブラウザからログインなしで直接ダウンロードできるよう、固定タグのリリースに置く
+      - name: Publish to release "scan3d-latest"
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: scan3d-latest
+          name: Scan3D 最新ビルド
+          prerelease: true
+          make_latest: false
+          body: "Galaxy用 Scan3D のテスト版APK（${{ github.sha }}）"
+          files: scan3d/android/scan3d-debug.apk

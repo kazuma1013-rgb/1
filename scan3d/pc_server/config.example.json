@@ -1,0 +1,6 @@
+{
+  "port": 8795,
+  "data_dir": "E:\\scan3d\\scans",
+  "colmap": "C:\\AiTool\\scan3d_tools\\colmap\\COLMAP.bat",
+  "openmvs_dir": "C:\\AiTool\\scan3d_tools\\openmvs"
+}
